@@ -153,7 +153,7 @@ def train(cfg: Config, tub_paths: str, model: str = None,
     assert val_size > 0, "Not enough validation data, decrease the batch " \
                          "size or add more data."
     logger.info(f'Train with image caching: '
-                f'{getattr(cfg, "CACHE_IMAGES", True)}')
+                f'{getattr(cfg, "CACHE_IMAGES", "ARRAY")}')
     history = kl.train(model_path=model_path,
                        train_data=dataset_train,
                        train_steps=train_size,
@@ -187,7 +187,8 @@ def train(cfg: Config, tub_paths: str, model: str = None,
     database_entry = {
         'Number': model_num,
         'Name': os.path.basename(base_path),
-        'Type': str(kl),
+        'Pilot': str(kl),
+        'Type': model_type,
         'Tubs': tub_paths,
         'Time': time(),
         'History': history,
